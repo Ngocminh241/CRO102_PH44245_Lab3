@@ -6,13 +6,16 @@ import Bai2 from './components/Bai2'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Bai3 from './components/Bai3';
 
+import Homescr from './screens/HomeScreen/Homscr';
+import AppNavigator from './navigation/AppNavigator';
+
 
 
 const App = () => {
   return (
       
        <SafeAreaProvider>
-     <Bai2/>
+        <Bai2/>
        </SafeAreaProvider>
   )
 }

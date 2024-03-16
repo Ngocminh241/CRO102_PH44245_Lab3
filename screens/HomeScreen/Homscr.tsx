@@ -15,13 +15,12 @@ import { TabbedHeaderPager } from 'react-native-sticky-parallax-header';
 
 import type { User } from '../../assets/data/cards';
 import { logo, photosPortraitMe } from '../../assets/images';
-import { QuizListElement, UserModal } from '../../components/components';
 import { colors, screenStyles } from '../../constants';
-import type { RootStackNavigationProp } from '../../navigation/types';
 
-import { EXAMPLES, ExampleLink } from './ExampleLink';
+
 import { TABS, users } from './data';
 import { homeScreenTestIDs } from './testIDs';
+import { StackNavigationEventMap, StackNavigationProp } from '@react-navigation/stack';
 
 const wait = (timeout: number) =>
   new Promise((resolve) => {
@@ -29,7 +28,7 @@ const wait = (timeout: number) =>
   });
 
 const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<RootStackNavigationProp>();
+ 
   const { height: windowHeight } = useWindowDimensions();
 
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
@@ -82,14 +81,7 @@ const HomeScreen: React.FC = () => {
     });
   };
 
-  const navigateToCardScreen = React.useCallback(
-    (user: User) => {
-      return () => {
-        navigation.navigate('Card', { user });
-      };
-    },
-    [navigation]
-  );
+
 
   const pressUserModal = React.useCallback(
     (user: User) => {
@@ -148,11 +140,7 @@ const HomeScreen: React.FC = () => {
                 visible={modalVisible}
                 style={styles.modalStyle}>
                 <View style={styles.modalContentContainer}>
-                  <UserModal
-                    setModalVisible={setModalVisible}
-                    onPressCloseModal={onPressCloseModal}
-                    user={userSelected}
-                  />
+                 
                 </View>
               </Modal>
               <Text style={screenStyles.contentText} testID={tab.contentTestID}>
@@ -160,23 +148,9 @@ const HomeScreen: React.FC = () => {
               </Text>
               {users.map(
                 (user) =>
-                  (title === 'Popular Quizes' || title === user.type) && (
-                    <QuizListElement
-                      key={user.author}
-                      elements={user.cardsAmount}
-                      authorName={user.author}
-                      mainText={user.label}
-                      labelText={user.type}
-                      imageSource={user.image}
-                      onPress={navigateToCardScreen(user)}
-                      pressUser={pressUserModal(user)}
-                    />
-                  )
+                  (title === 'Popular Quizes' || title === user.type)
               )}
-              <Text style={screenStyles.contentText}>Check custom examples</Text>
-              {EXAMPLES.map((example) => (
-                <ExampleLink key={example.routeName} {...example} />
-              ))}
+              
             </View>
           );
         })}
